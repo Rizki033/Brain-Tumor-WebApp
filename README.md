@@ -163,4 +163,4 @@ Brain-Tumor-Detection-and-Classification/
 
 **Model**: Convolutional Neural Network
 
-**Creator**: RIZKI ABDELHADI
+**Creator**: RIZKI ABDELHADI :)
