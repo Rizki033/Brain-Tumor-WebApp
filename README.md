@@ -70,39 +70,7 @@ Fully Connected Layers:
 ![Confusion Matrix](image2.png)
 
 #### Model Predictions and Classification Results
-![Predictions Distribution](image2.png)
-
-### Key Visualizations (Run Notebook Cells to View)
-
-#### 1. **Sample MRI Images** (Cells 8-9)
-- Displays random samples of healthy and tumor brain scans
-- Shows the input data quality and diversity
-
-#### 2. **Confusion Matrix - Untrained Model** (Cell 27)
-- Demonstrates baseline random classification
-- Accuracy: ~50%
-- Visualization shows equal distribution
-
-#### 3. **Confusion Matrix - Trained Model** (Cell 35)
-- Shows significant improvement in classification
-- High true positive and true negative rates
-- Clear separation between classes
-
-#### 4. **Training & Validation Loss** (Cell 59)
-- Smooth convergence of training loss
-- Validation loss closely follows training loss (good generalization)
-- No significant overfitting observed
-
-#### 5. **Convolutional Filter Feature Maps** (Cells 48-58)
-- Visualizes learned features from each convolutional layer
-- Layer 1: Detects low-level features (edges, textures)
-- Layer 2: Detects higher-level patterns and structures
-- Shows how the network progressively learns hierarchical representations
-
-#### 6. **Model Predictions Distribution** (Cells 21, 36)
-- Plots raw model outputs across all samples
-- Clear separation between tumor and healthy predictions
-- Red line marks the split between tumor and healthy datasets
+![Predictions Distribution](image1.png)
 
 ##  How to Run
 
@@ -143,7 +111,7 @@ pip install -r requirements.txt
 | Loss Convergence | N/A | Smooth |
 | Generalization | Poor | Good |
 
-## 🔧 Areas for Improvement
+## Areas for Improvement
 
 1. **Data Augmentation**
    - Add rotation, flip, zoom transformations
@@ -188,7 +156,11 @@ Brain-Tumor-Detection-and-Classification/
 ```
 
 **Created**: December 2025
+
 **Framework**: PyTorch
+
 **Dataset**: Brain MRI Images
+
 **Model**: Convolutional Neural Network
+
 **Creator**: RIZKI ABDELHADI
