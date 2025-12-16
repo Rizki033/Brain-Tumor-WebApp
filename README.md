@@ -155,12 +155,4 @@ Brain-Tumor-Detection-and-Classification/
 └── README.md                     # This file
 ```
 
-**Created**: December 2025
-
-**Framework**: PyTorch
-
-**Dataset**: Brain MRI Images
-
-**Model**: Convolutional Neural Network
-
 **Creator**: RIZKI ABDELHADI :)
