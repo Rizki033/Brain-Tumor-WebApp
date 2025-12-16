@@ -43,13 +43,6 @@ Fully Connected Layers:
 └─ Sigmoid activation
 ```
 
-### Training Configuration
-- **Optimizer**: Adam (learning rate: 0.0001)
-- **Loss Function**: Binary Cross Entropy (BCE)
-- **Epochs**: 600
-- **Batch Size**: 32
-- **Device**: CPU/GPU (automatic detection)
-
 ## Results
 
 ### Before Training (Untrained Model)
