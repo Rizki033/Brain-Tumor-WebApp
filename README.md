@@ -1,4 +1,4 @@
-# Brain Tumor Detection and Classification
+#  Brain Tumor Classification with Feature Visualization
 
 A deep learning project using Convolutional Neural Networks (CNN) to detect and classify brain tumors from MRI images. This project demonstrates the complete pipeline from data loading and preprocessing to model training, evaluation, and visualization of feature maps.
 
