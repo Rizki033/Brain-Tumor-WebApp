@@ -64,13 +64,13 @@ Fully Connected Layers:
 ### Performance Graphs
 
 #### Training & Validation Loss Over Epochs
-![Loss Convergence](image1.png)
+![Loss Convergence](image3.png)
 
 #### Confusion Matrix - Model Performance
 ![Confusion Matrix](image2.png)
 
 #### Model Predictions and Classification Results
-![Predictions Distribution](image3.png)
+![Predictions Distribution](image2.png)
 
 ### Key Visualizations (Run Notebook Cells to View)
 
