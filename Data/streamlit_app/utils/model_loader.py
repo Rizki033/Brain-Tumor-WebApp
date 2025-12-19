@@ -34,15 +34,26 @@ class CNN(nn.Module):
 
 def _find_model_file(name='brain_tumor_model.pth', max_up=5):
     """Search up to `max_up` parent directories for `name` and return its path.
+    The function will check the parent directories themselves and common subdirectories
+    such as `model` or `models` (useful when model files live in a project-level `model/` folder).
     Raises FileNotFoundError if the file cannot be found."""
     p = Path(__file__).resolve()
     for i in range(max_up + 1):
         if i < len(p.parents):
-            candidate = p.parents[i] / name
+            base = p.parents[i]
         else:
-            candidate = None
-        if candidate and candidate.exists():
+            base = None
+        if base is None:
+            continue
+        # Check the parent directory directly
+        candidate = base / name
+        if candidate.exists():
             return str(candidate)
+        # Check common subdirectories where models are often stored
+        for sub in ("model", "models"):
+            candidate_sub = base / sub / name
+            if candidate_sub.exists():
+                return str(candidate_sub)
     raise FileNotFoundError(f"'{name}' not found (searched up to {max_up} parents from {p})")
 
 
