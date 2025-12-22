@@ -23,7 +23,7 @@ const ContactSection = () => {
                                             <GeoAlt className="contact-icon" />
                                             <div>
                                                 <h5>Location</h5>
-                                                <p>Marrakech, Morocco</p>
+                                                <p>123 Medical Plaza, Marrakech Morocco</p>
                                             </div>
                                         </div>
 
@@ -85,12 +85,6 @@ const ContactSection = () => {
                     </Col>
                 </Row>
             </Container>
-
-            <footer className="main-footer">
-                <Container className="text-center">
-                    <p className="mb-0">© 2025 Brain Tumor AI Detection. All Rights Reserved.</p>
-                </Container>
-            </footer>
         </section>
     );
 };
