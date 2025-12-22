@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import { Linkedin, Github, PersonCircle } from 'react-bootstrap-icons';
+import { Linkedin as LinkedInIcon, Github, PersonCircle } from 'react-bootstrap-icons';
 import './TeamSection.css';
 
 const TeamSection = () => {
@@ -57,7 +57,7 @@ const TeamSection = () => {
                                     <p className="member-desc">{member.description}</p>
 
                                     <div className="social-links mt-auto">
-                                        <a href={member.social.linkedin} className="social-icon"><Linkedin /></a>
+                                        <a href={member.social.linkedin} className="social-icon"><LinkedInIcon /></a>
                                         <a href={member.social.github} className="social-icon"><Github /></a>
                                     </div>
                                 </Card.Body>
