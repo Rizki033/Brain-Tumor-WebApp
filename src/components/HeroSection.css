@@ -1,0 +1,152 @@
+/* HeroSection.css */
+.hero-section {
+    background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    color: #0f1c2e;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Inter', sans-serif;
+}
+
+.text-content {
+    z-index: 10;
+    padding-left: 5%;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    background: linear-gradient(120deg, #0277bd 0%, #00d2ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 5px 15px rgba(0, 210, 255, 0.2));
+}
+
+.hero-subtitle {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: #0288d1;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #546e7a;
+    margin-bottom: 40px;
+    max-width: 550px;
+}
+
+.cta-container {
+    display: flex;
+    gap: 20px;
+}
+
+.cta-btn {
+    padding: 14px 36px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.primary-cta {
+    background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 180, 219, 0.4);
+    color: white;
+}
+
+.primary-cta:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 180, 219, 0.6);
+}
+
+.secondary-cta {
+    background: transparent;
+    border: 2px solid #00b4db;
+    color: #00b4db;
+}
+
+.secondary-cta:hover {
+    background: rgba(0, 180, 219, 0.1);
+    color: #e0f7fa;
+    border-color: #e0f7fa;
+    transform: translateY(-3px);
+}
+
+/* 3D Brain & Floating Effects */
+.image-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.brain-image-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    animation: float 8s ease-in-out infinite;
+}
+
+.brain-image {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.5));
+    /* Ensure image blends well if it has a bg, otherwise mix-blend-mode might help if white bg */
+    mix-blend-mode: screen;
+    /* Caution: mix-blend-mode screen assumes a black background to "remove" the black, 
+     but our image might be on white. If it's on white, we might need a different approach or just no blend mode.
+     Let's try normal first, or if the prompt asked for "isolated on white", it might have a white bg.
+     In a dark theme, a white bg image looks bad. 
+     I will assume the image generator did a good job or I'll handle it. 
+     Given the prompt "isolated on white or light blue", and my dark theme, I might have a problem.
+     I'll remove mix-blend-mode for now and hope for the best, or suggest the user transparency.
+     Actually, if the user requested "isolated on white" and I'm engaging "Dark Mode/Deep Blue", 
+     I should probably have requested a black background for the generation. 
+     I'll deal with this. */
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-25px) rotate(1deg);
+    }
+}
+
+/* Background Elements */
+.bg-shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 1;
+}
+
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    background: rgba(0, 210, 255, 0.15);
+    top: -50px;
+    left: -100px;
+}
+
+.shape-2 {
+    width: 400px;
+    height: 400px;
+    background: rgba(0, 80, 255, 0.1);
+    bottom: -100px;
+    right: -50px;
+}

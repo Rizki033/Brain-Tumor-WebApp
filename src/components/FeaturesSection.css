@@ -1,0 +1,124 @@
+/* FeaturesSection.css */
+.features-section {
+    padding: 80px 0;
+    background: #ffffff;
+    /* White background as requested */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle Blue Gradient Background Effect */
+.features-section::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: -10%;
+    width: 50%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0, 210, 255, 0.05) 0%, rgba(255, 255, 255, 0) 70%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.features-section::after {
+    content: '';
+    position: absolute;
+    bottom: -20%;
+    right: -10%;
+    width: 50%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0, 80, 255, 0.05) 0%, rgba(255, 255, 255, 0) 70%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.features-header {
+    margin-bottom: 60px;
+    position: relative;
+    z-index: 1;
+}
+
+.features-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 2.5rem;
+    color: #1a233a;
+    margin-bottom: 15px;
+}
+
+.features-subtitle {
+    font-size: 1.1rem;
+    color: #6c7c93;
+}
+
+/* Glassmorphism Card Style */
+.feature-card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    padding: 30px 20px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px rgba(0, 27, 45, 0.05);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* Floating Hover Effect */
+.feature-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0, 48, 87, 0.12);
+    border-color: rgba(0, 210, 255, 0.3);
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.feature-card:hover::before {
+    opacity: 1;
+}
+
+.icon-wrapper {
+    margin-bottom: 25px;
+    color: #00d2ff;
+    background: rgba(0, 210, 255, 0.1);
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 0 0 rgba(0, 210, 255, 0.0);
+}
+
+.feature-card:hover .icon-wrapper {
+    background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+    color: #ffffff;
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 210, 255, 0.3);
+}
+
+.feature-card-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.feature-card-text {
+    color: #7f8c8d;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
