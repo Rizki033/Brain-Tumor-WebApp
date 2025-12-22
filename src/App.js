@@ -7,6 +7,7 @@ import About from './pages/About';
 import Team from './pages/Team';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
+import Footer from './components/Footer';
 import './App.css';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );
