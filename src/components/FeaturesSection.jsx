@@ -32,7 +32,7 @@ const FeaturesSection = () => {
     ];
 
     return (
-        <section className="features-section">
+        <section className="features-section" id="features">
             <Container>
                 <div className="features-header text-center">
                     <h2 className="features-title">Cutting-Edge AI Technology</h2>
