@@ -1,4 +1,7 @@
-fastapi
-uvicorn
+astapi
+uvicorn[standard]
 python-multipart
 pillow
+groq
+python-dotenv
+pydantic

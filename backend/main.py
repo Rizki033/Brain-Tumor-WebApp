@@ -1,57 +1,62 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from PIL import Image
-import io
-import time
-import random
+from app.api.chat import router as chat_router
 
-app = FastAPI()
+app = FastAPI(
+    title="NeuroScan Brain Tumor Chatbot API",
+    description="Medical chatbot powered by Groq AI for brain tumor information",
+    version="1.0.0"
+)
 
-# Enable CORS for frontend
+# CORS Configuration - Allow frontend to access API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:5173",
+        "*"  # Remove this in production, specify exact origins
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-@app.post("/predict")
-async def predict(file: UploadFile = File(...)):
-    # Simulating processing delay for "Anti-Gravity" feel
-    time.sleep(2.0) 
-    
-    try:
-        # Verify it's an image
-        contents = await file.read()
-        image = Image.open(io.BytesIO(contents))
-        image.verify()
-        
-        # Mock Inference Logic
-        # In a real scenario, this would be: transform -> model -> output
-        # Here we simulate the AI's confidence and diagnosis
-        
-        is_tumor = random.choices([True, False], weights=[0.7, 0.3])[0]
-        
-        if is_tumor:
-            label = random.choice(["Meningioma", "Glioma", "Pituitary"])
-            severity = "High"
-            conf = random.uniform(88.0, 99.9)
-        else:
-            label = "No Tumor"
-            severity = "None"
-            conf = random.uniform(92.0, 99.9)
-            
-        return {
-            "diagnosis": label,
-            "confidence": round(conf, 1),
-            "severity": severity,
-            "type": label
-        }
-
-    except Exception as e:
-        return {"error": f"Invalid file: {str(e)}"}
+# Include chat router
+app.include_router(chat_router, prefix="/api", tags=["chat"])
 
 @app.get("/")
-def read_root():
-    return {"status": "Brain Tumor AI Backend (Simulated) Running"}
+def root():
+    """Root endpoint - API info"""
+    return {
+        "message": "NeuroScan AI API is running",
+        "version": "1.0.0",
+        "ai_provider": "Groq (Free)",
+        "endpoints": {
+            "chat": "POST /api/chat",
+            "health": "GET /health",
+            "docs": "GET /docs"
+        }
+    }
+
+@app.get("/health")
+def health():
+    """Health check endpoint"""
+    from app.core.config import GROQ_API_KEY
+    return {
+        "status": "healthy",
+        "ai_provider": "Groq",
+        "api_key_configured": bool(GROQ_API_KEY)
+    }
+
+@app.on_event("startup")
+async def startup_event():
+    """Run on server startup"""
+    print(" NeuroScan AI Backend Starting...")
+    print(" AI Provider: Groq (Free)")
+    from app.core.config import GROQ_API_KEY
+    if GROQ_API_KEY:
+        print(f" Groq API Key: {GROQ_API_KEY[:20]}...")
+    else:
+        print("  WARNING: GROQ_API_KEY not configured!")
