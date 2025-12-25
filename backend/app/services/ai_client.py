@@ -4,22 +4,22 @@ from app.core.config import GROQ_API_KEY
 client = Groq(api_key=GROQ_API_KEY)
 
 class AIClient:
-    def ask(self, prompt: str) -> str:
+    def ask(self, messages: list) -> str:
+        """
+        Send a list of messages to Groq AI
+        
+        Args:
+            messages: List of dicts with 'role' and 'content'
+        """
         if not GROQ_API_KEY:
             return " AI service is not configured (missing API key)."
 
         try:
-            print(f" Sending to Groq: {prompt[:100]}...")
+            print(f" Sending {len(messages)} messages to Groq...")
             
             response = client.chat.completions.create(
                 model="llama-3.3-70b-versatile",
-                messages=[
-                    {
-                        "role": "system", 
-                        "content": "You are a helpful medical AI assistant specializing in brain tumors and neurological conditions. Provide clear, empathetic responses and always remind users to consult healthcare professionals."
-                    },
-                    {"role": "user", "content": prompt}
-                ],
+                messages=messages,
                 temperature=0.7,
                 max_tokens=500
             )

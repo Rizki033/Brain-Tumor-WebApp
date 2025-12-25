@@ -12,19 +12,21 @@ import './App.css';
 import Chatbot from './components/Chatbot';
 
 function App() {
+  const [diagnosis, setDiagnosis] = React.useState({ prediction: "Unknown", confidence: 0 });
+
   return (
     <Router>
       <div className="App">
         <Navigation />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/diagnostic" element={<Diagnostic />} />
+          <Route path="/diagnostic" element={<Diagnostic setGlobalDiagnosis={setDiagnosis} />} />
           <Route path="/about" element={<About />} />
           <Route path="/team" element={<Team />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
         </Routes>
-        <Chatbot prediction={"Unknown"} confidence={0} />
+        <Chatbot prediction={diagnosis.prediction} confidence={diagnosis.confidence} />
         <Footer />
       </div>
     </Router>

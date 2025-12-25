@@ -2,38 +2,43 @@ from app.services.ai_client import AIClient
 
 ai_client = AIClient()
 
-def generate_answer(question: str, prediction: str, confidence: float) -> str:
+def generate_answer(question: str, prediction: str, confidence: float, history: list = None) -> str:
     """
-    Generate an answer using Groq AI based on the question and diagnosis info
+    Generate an answer using Groq AI based on the question, diagnosis info, and history
     
     Args:
         question: User's question
-        prediction: Brain tumor prediction (e.g., "Glioma", "Meningioma")
-        confidence: Confidence score (0.0 to 1.0)
+        prediction: Brain tumor prediction
+        confidence: Confidence score
+        history: List of previous messages [{role: 'user'|'bot', text: '...'}]
         
     Returns:
         AI-generated response
     """
     
-    # Build context-aware prompt
-    prompt = f"""You are assisting with a brain tumor detection system called NeuroScan AI.
-
-Current Diagnosis Context:
-- Predicted Tumor Type: {prediction}
-- Confidence Level: {confidence:.1%}
-
-User's Question:
-{question}
+    # System prompt
+    system_content = f"""You are NeuroScan AI, a helpful medical AI assistant.
+Current Patient Context:
+- Diagnosis: {prediction}
+- Confidence: {confidence:.1%}
 
 Instructions:
-- If the user asks about their diagnosis, explain what "{prediction}" means in simple terms
-- Mention the confidence level if relevant
-- Provide helpful, accurate medical information
-- Be empathetic and supportive
-- ALWAYS emphasize this is AI-assisted detection and requires confirmation by medical professionals
-- Encourage consultation with neurologists or oncologists
-- Keep response clear and concise (2-3 paragraphs)
+- Be empathetic, professional, and concise.
+- Explain medical terms simply.
+- ALWAYS remind the user that this is an AI-assisted tool and they MUST consult a doctor for official diagnosis.
+- Avoid repetitive phrases like "I'm here to help you understand...".
+- If the user asks about their specific result, use the context provided.
+"""
 
-Respond helpfully:"""
+    messages = [{"role": "system", "content": system_content}]
+    
+    # Add history (mapping 'bot' to 'assistant' for Groq/OpenAI format)
+    if history:
+        for msg in history:
+            role = "assistant" if msg.get("role") == "bot" else "user"
+            messages.append({"role": role, "content": msg.get("text", "")})
+    
+    # Add current question
+    messages.append({"role": "user", "content": question})
 
-    return ai_client.ask(prompt)
+    return ai_client.ask(messages)

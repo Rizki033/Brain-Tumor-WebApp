@@ -29,7 +29,8 @@ async def chat(req: ChatRequest):
         answer = generate_answer(
             question=req.question,
             prediction=req.prediction,
-            confidence=req.confidence
+            confidence=req.confidence,
+            history=req.history
         )
         
         print(f" Generated answer: {answer[:100]}...")

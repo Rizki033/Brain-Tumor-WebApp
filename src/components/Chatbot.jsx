@@ -5,15 +5,15 @@ import logo from "../Assets/logo.png";
 export default function Chatbot({ prediction = "Unknown", confidence = 0 }) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { 
-      role: "bot", 
-      text: "Hello! I'm the NeuroScan AI Assistant. I can help answer questions about brain tumors and medical imaging. How can I help you today?" 
+    {
+      role: "bot",
+      text: "Hello! I'm the NeuroScan AI Assistant. I can help answer questions about brain tumors and medical imaging. How can I help you today?"
     }
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
-  
+
   // Dragging state
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState(null); // Will be set on first open
@@ -28,7 +28,7 @@ export default function Chatbot({ prediction = "Unknown", confidence = 0 }) {
       const windowHeight = window.innerHeight;
       const chatWidth = 360;
       const chatHeight = 480;
-      
+
       setPosition({
         x: windowWidth - chatWidth - 24, // 24px from right
         y: windowHeight - chatHeight - 100 // 100px from bottom (above button)
@@ -45,10 +45,28 @@ export default function Chatbot({ prediction = "Unknown", confidence = 0 }) {
     scrollToBottom();
   }, [messages]);
 
+  // Add welcome message when diagnosis is detected
+  const [hasNotifiedDiagnosis, setHasNotifiedDiagnosis] = useState(false);
+
+  useEffect(() => {
+    if (prediction !== "Unknown" && !hasNotifiedDiagnosis) {
+      setMessages(prev => [
+        ...prev,
+        {
+          role: "bot",
+          text: `I see your analysis is ready! You have been diagnosed with ${prediction} (${(confidence * 100).toFixed(1)}% confidence). Would you like me to explain what this means or answer any questions?`
+        }
+      ]);
+      setHasNotifiedDiagnosis(true);
+      // Automatically open chat if it's closed
+      setOpen(true);
+    }
+  }, [prediction, confidence, hasNotifiedDiagnosis]);
+
   // Handle mouse down on header to start dragging
   const handleMouseDown = (e) => {
     if (!chatWindowRef.current) return;
-    
+
     const rect = chatWindowRef.current.getBoundingClientRect();
     setDragOffset({
       x: e.clientX - rect.left,
@@ -109,7 +127,8 @@ export default function Chatbot({ prediction = "Unknown", confidence = 0 }) {
         body: JSON.stringify({
           question: currentInput,
           prediction: prediction,
-          confidence: confidence
+          confidence: confidence,
+          history: messages.slice(-10) // Send last 10 messages for context
         }),
       });
 
@@ -118,7 +137,7 @@ export default function Chatbot({ prediction = "Unknown", confidence = 0 }) {
       }
 
       const data = await res.json();
-      
+
       setMessages((prev) => [
         ...prev,
         { role: "bot", text: data.answer || "I'm sorry, I couldn't generate a response." },
@@ -127,9 +146,9 @@ export default function Chatbot({ prediction = "Unknown", confidence = 0 }) {
       console.error("Chat error:", err);
       setMessages((prev) => [
         ...prev,
-        { 
-          role: "bot", 
-          text: "I'm sorry, I'm having trouble connecting to the server. Please make sure the backend is running on http://localhost:8000" 
+        {
+          role: "bot",
+          text: "I'm sorry, I'm having trouble connecting to the server. Please make sure the backend is running on http://localhost:8000"
         },
       ]);
     } finally {
@@ -151,7 +170,7 @@ export default function Chatbot({ prediction = "Unknown", confidence = 0 }) {
       </button>
 
       {open && position && (
-        <div 
+        <div
           ref={chatWindowRef}
           className="chatbot-window"
           style={{
@@ -162,8 +181,8 @@ export default function Chatbot({ prediction = "Unknown", confidence = 0 }) {
             cursor: isDragging ? 'grabbing' : 'default'
           }}
         >
-          <div 
-            className="chatbot-header" 
+          <div
+            className="chatbot-header"
             onMouseDown={handleMouseDown}
             style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
           >
@@ -177,7 +196,7 @@ export default function Chatbot({ prediction = "Unknown", confidence = 0 }) {
                 {m.text}
               </div>
             ))}
-            
+
             {isLoading && (
               <div className="msg bot">
                 <div className="loading-dots">
@@ -187,7 +206,7 @@ export default function Chatbot({ prediction = "Unknown", confidence = 0 }) {
                 </div>
               </div>
             )}
-            
+
             <div ref={messagesEndRef} />
           </div>
 
@@ -199,8 +218,8 @@ export default function Chatbot({ prediction = "Unknown", confidence = 0 }) {
               placeholder="Ask about brain tumors..."
               disabled={isLoading}
             />
-            <button 
-              className="send-btn" 
+            <button
+              className="send-btn"
               onClick={sendMessage}
               disabled={isLoading || !input.trim()}
             >
