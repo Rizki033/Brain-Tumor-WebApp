@@ -5,3 +5,8 @@ pillow
 groq
 python-dotenv
 pydantic
+monai
+numpy
+nibabel
+torch
+torchvision

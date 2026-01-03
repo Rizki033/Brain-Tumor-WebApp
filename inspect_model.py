@@ -1,7 +1,7 @@
 import torch
 
 try:
-    path = 'backend/models/brain_tumor_model.pth'
+    path = 'backend/app/models/brain_tumor_model.pth'
     checkpoint = torch.load(path, map_location=torch.device('cpu'))
     
     print(f"Type: {type(checkpoint)}")

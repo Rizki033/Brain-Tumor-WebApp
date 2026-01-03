@@ -58,8 +58,6 @@ export default function Chatbot({ prediction = "Unknown", confidence = 0 }) {
         }
       ]);
       setHasNotifiedDiagnosis(true);
-      // Automatically open chat if it's closed
-      setOpen(true);
     }
   }, [prediction, confidence, hasNotifiedDiagnosis]);
 

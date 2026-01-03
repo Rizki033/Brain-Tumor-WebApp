@@ -10,9 +10,12 @@ const Diagnostic = ({ setGlobalDiagnosis }) => {
 
         // Update global state for chatbot
         if (setGlobalDiagnosis && result) {
+            // Backend returns confidence as percentage (0-100). Chatbot + /api/chat expect 0-1.
+            const rawConfidence = typeof result.confidence === 'number' ? result.confidence : 0;
+            const confidence01 = rawConfidence > 1 ? rawConfidence / 100 : rawConfidence;
             setGlobalDiagnosis({
-                prediction: result.prediction,
-                confidence: result.confidence
+                prediction: result.prediction ?? result.diagnosis ?? "Unknown",
+                confidence: confidence01
             });
         }
 
