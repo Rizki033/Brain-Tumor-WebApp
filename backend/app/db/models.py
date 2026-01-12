@@ -7,7 +7,7 @@ from sqlmodel import Field, Session, SQLModel, create_engine, select
 from enum import StrEnum
 
 from sqlmodel import SQLModel, Field
-from sqlalchemy import Column                # ← this was missing
+from sqlalchemy import Column        
 from sqlalchemy.types import Enum
 
 
@@ -20,7 +20,7 @@ class Doctor(SQLModel, table=True):
     created_at: datetime = Field(
         default_factory=datetime.utcnow,
         nullable=False,
-        sa_column_kwargs={"server_default": "CURRENT_TIMESTAMP"}  # SQLite loves this!
+        sa_column_kwargs={"server_default": "CURRENT_TIMESTAMP"}
     )
 
     def create_patient():
@@ -53,5 +53,5 @@ class Patient(SQLModel, table=True):
     created_at: datetime = Field(
         default_factory=datetime.utcnow,
         nullable=False,
-        sa_column_kwargs={"server_default": "CURRENT_TIMESTAMP"}  # SQLite loves this!
+        sa_column_kwargs={"server_default": "CURRENT_TIMESTAMP"}
     )
