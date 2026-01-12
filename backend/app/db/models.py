@@ -61,3 +61,29 @@ class PredictionStatus(str, Enum):
     REVIEWED = "reviewed"
     SIGNED = "signed"
 
+# ---------------------- Patient Model ---------------------
+class Prediction(SQLModel, table=True):
+    id: int | None = Field(
+        default=None, 
+        primary_key=True
+    )
+    id_patient: int = Field(
+        default=None, 
+        primary_key=True, 
+        foreign_key="patient.id"
+    )
+    id_doctor: int | None = Field(
+        default=None, 
+        primary_key=True, 
+        foreign_key="doctor.id"
+    )
+    img_path_mri: str = Field(index=True)
+    airesult: str = Field(index=True) 
+    doctor_notes: str = Field(index=True) 
+    status: PredictionStatus
+    age: int | None = Field(default=None, index=True)  
+    uploaded_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        nullable=False,
+        sa_column_kwargs={"server_default": "CURRENT_TIMESTAMP"}
+    )    
