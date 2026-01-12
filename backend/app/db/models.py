@@ -87,3 +87,26 @@ class Prediction(SQLModel, table=True):
         nullable=False,
         sa_column_kwargs={"server_default": "CURRENT_TIMESTAMP"}
     )    
+
+# ---------------------- Patient Model ---------------------
+class Raport(SQLModel, table=True):
+    id: int | None = Field(
+        default=None, 
+        primary_key=True
+    )
+    id_prediction: int = Field(
+        default=None, 
+        primary_key=True, 
+        foreign_key="prediction.id"
+    )
+    id_doctor: int | None = Field(
+        default=None, 
+        primary_key=True, 
+        foreign_key="doctor.id"
+    )
+    pdf_path: str = Field(index=True)
+    signed_at: datetime = Field(
+        default_factory=datetime.utcnow,
+        nullable=False,
+        sa_column_kwargs={"server_default": "CURRENT_TIMESTAMP"}
+    )    
