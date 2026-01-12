@@ -17,6 +17,7 @@ class Doctor(SQLModel, table=True):
     name: str = Field(index=True)
     email: str | None = Field(default=None, index=True)
     hashed_password: str
+    competency_doc: str
     created_at: datetime = Field(
         default_factory=datetime.utcnow,
         nullable=False,
@@ -36,22 +37,21 @@ class Doctor(SQLModel, table=True):
         return
     
 
+# ---------------------- The Class Gender Enum ---------------------
+class PatientGender(str, Enum):
+    MALE = "male"
+    FEMALE = "female"
+
 # ---------------------- Patient Model ---------------------
 class Patient(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     first_name: str = Field(index=True)
     last_name: str = Field(index=True) 
-    gender: Optional[str] = Field(
-        default=None,
-        sa_column=Column(Enum(
-            "male", "female", name="gender_enum"
-        ))
-    )
-    age: int | None = Field(default=None, index=True)
-    
-    
+    gender: PatientGender
+    age: int | None = Field(default=None, index=True)  
     created_at: datetime = Field(
         default_factory=datetime.utcnow,
         nullable=False,
         sa_column_kwargs={"server_default": "CURRENT_TIMESTAMP"}
     )
+
