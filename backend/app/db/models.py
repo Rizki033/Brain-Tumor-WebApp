@@ -55,3 +55,9 @@ class Patient(SQLModel, table=True):
         sa_column_kwargs={"server_default": "CURRENT_TIMESTAMP"}
     )
 
+# ---------------------- The Class Gender Enum ---------------------
+class PredictionStatus(str, Enum):
+    PENDING = "pending"
+    REVIEWED = "reviewed"
+    SIGNED = "signed"
+
