@@ -10,3 +10,5 @@ numpy
 nibabel
 torch
 torchvision
+sqlalchemy
+sqlmodel
