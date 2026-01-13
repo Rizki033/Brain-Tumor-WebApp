@@ -41,8 +41,11 @@ const Navigation = () => {
 
                         {isAuthenticated ? (
                             <>
-                                <Nav.Link as={NavLink} to="/doctor-dashboard" className="nav-item-link">
-                                    Dashboard
+                                <Nav.Link as={NavLink} to="/patient-dashboard" className="nav-item-link">
+                                    My Dashboard
+                                </Nav.Link>
+                                <Nav.Link as={NavLink} to="/profile" className="nav-item-link">
+                                    Profile
                                 </Nav.Link>
                                 <Button
                                     variant="outline-light"
@@ -52,16 +55,7 @@ const Navigation = () => {
                                     Logout
                                 </Button>
                             </>
-                        ) : (
-                            <Button
-                                as={Link}
-                                to="/login"
-                                variant="outline-light"
-                                className="ms-lg-3 mt-3 mt-lg-0"
-                            >
-                                Doctor Login
-                            </Button>
-                        )}
+                        ) : null}
 
                         <Button
                             as={Link}
