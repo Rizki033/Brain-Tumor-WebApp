@@ -1,9 +1,47 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Envelope, GeoAlt, Telephone } from 'react-bootstrap-icons';
+import emailjs from '@emailjs/browser';
+import Swal from 'sweetalert2';
 import './ContactSection.css';
 
 const ContactSection = () => {
+    const form = useRef();
+    const [sending, setSending] = useState(false);
+
+    const sendEmail = (e) => {
+        e.preventDefault();
+        setSending(true);
+        const SERVICE_ID = 'service_e8svokv';
+        const TEMPLATE_ID = 'template_kvy4lpr';
+        const PUBLIC_KEY = 'yR63CHlkjk-PIT7ls';
+
+        emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUBLIC_KEY)
+            .then((result) => {
+                setSending(false);
+                Swal.fire({
+                    title: 'Magnifique!',
+                    text: 'Votre message a été envoyé avec succès.',
+                    icon: 'success',
+                    confirmButtonText: 'Super',
+                    confirmButtonColor: '#0d6efd',
+                    background: '#ffffff',
+                    color: '#333'
+                });
+                form.current.reset();
+            }, (error) => {
+                setSending(false);
+                console.log(error.text);
+                Swal.fire({
+                    title: 'Oups!',
+                    text: 'Une erreur s\'est produite. Veuillez réessayer.',
+                    icon: 'error',
+                    confirmButtonText: 'Fermer',
+                    confirmButtonColor: '#dc3545'
+                });
+            });
+    };
+
     return (
         <section className="contact-section" id="contact">
             <Container>
@@ -31,7 +69,7 @@ const ContactSection = () => {
                                             <Envelope className="contact-icon" />
                                             <div>
                                                 <h5>Email</h5>
-                                                <p>rizkiabdelhadi4@gmail.com</p>
+                                                <p>a.rizki7131@uca.ac.ma</p>
                                             </div>
                                         </div>
 
@@ -48,34 +86,59 @@ const ContactSection = () => {
                                 <Col lg={7} className="contact-form-col">
                                     <div className="contact-form-content">
                                         <h3 className="form-title">Send us a Message</h3>
-                                        <Form>
+                                        <Form ref={form} onSubmit={sendEmail}>
                                             <Row>
                                                 <Col md={6}>
                                                     <Form.Group className="mb-4" controlId="formName">
                                                         <Form.Label>Your Name</Form.Label>
-                                                        <Form.Control type="text" placeholder="Dr. name" className="custom-input" />
+                                                        <Form.Control
+                                                            type="text"
+                                                            placeholder="Dr. name"
+                                                            className="custom-input"
+                                                            name="user_name"
+                                                            required
+                                                        />
                                                     </Form.Group>
                                                 </Col>
                                                 <Col md={6}>
                                                     <Form.Group className="mb-4" controlId="formEmail">
                                                         <Form.Label>Email Address</Form.Label>
-                                                        <Form.Control type="email" placeholder="name@hospital.com" className="custom-input" />
+                                                        <Form.Control
+                                                            type="email"
+                                                            placeholder="name@hospital.com"
+                                                            className="custom-input"
+                                                            name="user_email"
+                                                            required
+                                                        />
                                                     </Form.Group>
                                                 </Col>
                                             </Row>
 
                                             <Form.Group className="mb-4" controlId="formSubject">
                                                 <Form.Label>Subject</Form.Label>
-                                                <Form.Control type="text" placeholder="Partnership Inquiry" className="custom-input" />
+                                                <Form.Control
+                                                    type="text"
+                                                    placeholder="Partnership Inquiry"
+                                                    className="custom-input"
+                                                    name="subject"
+                                                    required
+                                                />
                                             </Form.Group>
 
                                             <Form.Group className="mb-4" controlId="formMessage">
                                                 <Form.Label>Message</Form.Label>
-                                                <Form.Control as="textarea" rows={4} placeholder="How can we help you?" className="custom-input" />
+                                                <Form.Control
+                                                    as="textarea"
+                                                    rows={4}
+                                                    placeholder="How can we help you?"
+                                                    className="custom-input"
+                                                    name="message"
+                                                    required
+                                                />
                                             </Form.Group>
 
-                                            <Button variant="primary" type="submit" className="submit-btn w-100">
-                                                Send Message
+                                            <Button variant="primary" type="submit" className="submit-btn w-100" disabled={sending}>
+                                                {sending ? 'Sending...' : 'Send Message'}
                                             </Button>
                                         </Form>
                                     </div>
