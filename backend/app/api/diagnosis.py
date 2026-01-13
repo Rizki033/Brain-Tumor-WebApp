@@ -11,8 +11,8 @@ router = APIRouter()
 
 @router.post("/login")
 async def login(
+    session: SessionDep,
     form_data: OAuth2PasswordRequestForm = Depends(),
-    session: Session = SessionDep
 ):
     """
     Doctor login endpoint. Returns JWT access token.
