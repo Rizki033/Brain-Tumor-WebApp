@@ -62,3 +62,14 @@ async def startup_event():
         print(f" Groq API Key: {GROQ_API_KEY[:20]}...")
     else:
         print("  WARNING: GROQ_API_KEY not configured!")
+
+    # Initialize database
+    from app.db.models import create_db_and_tables
+    create_db_and_tables()
+    print(" Database tables created/verified")
+
+    # Load model
+    global model
+    from app.model import load_model
+    model = load_model()
+    print(" Model loaded successfully")

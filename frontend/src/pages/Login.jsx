@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 import { PersonCircle, Lock, Envelope, PersonVcard } from 'react-bootstrap-icons';
+import { useAuth } from '../contexts/AuthContext';
 import './Login.css';
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const { login } = useAuth();
+    const navigate = useNavigate();
 
     // Login State
     const [email, setEmail] = useState('');
@@ -28,9 +33,20 @@ const Login = () => {
         setConfirmPassword('');
     };
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        console.log("Login:", email);
+        setLoading(true);
+        setError('');
+
+        const result = await login(email, password);
+
+        if (result.success) {
+            navigate('/doctor-dashboard');
+        } else {
+            setError(result.error);
+        }
+
+        setLoading(false);
     };
 
     const handleSignUp = (e) => {
@@ -80,6 +96,11 @@ const Login = () => {
                                     {isLogin ? (
                                         /* LOGIN FORM */
                                         <Form onSubmit={handleLogin} className="auth-form fade-in">
+                                            {error && (
+                                                <Alert variant="danger" className="mb-3">
+                                                    {error}
+                                                </Alert>
+                                            )}
                                             <Form.Group className="mb-4" controlId="loginEmail">
                                                 <Form.Label className="auth-label">Email Address</Form.Label>
                                                 <div className="input-group-custom">
@@ -115,8 +136,13 @@ const Login = () => {
                                                 <Link to="#" className="forgot-password">Forgot Password?</Link>
                                             </div>
 
-                                            <Button variant="primary" type="submit" className="auth-btn w-100 mb-3">
-                                                Sign In
+                                            <Button
+                                                variant="primary"
+                                                type="submit"
+                                                className="auth-btn w-100 mb-3"
+                                                disabled={loading}
+                                            >
+                                                {loading ? 'Signing In...' : 'Sign In'}
                                             </Button>
 
                                             <div className="text-center mt-3">

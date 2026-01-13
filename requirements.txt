@@ -12,3 +12,5 @@ torch
 torchvision
 sqlalchemy
 sqlmodel
+python-jose[cryptography]
+passlib[bcrypt]
