@@ -1,7 +1,14 @@
 from groq import Groq
 from app.core.config import GROQ_API_KEY
 
-client = Groq(api_key=GROQ_API_KEY)
+try:
+    if GROQ_API_KEY:
+        client = Groq(api_key=GROQ_API_KEY)
+    else:
+        client = None
+except Exception as e:
+    print(f"Failed to initialize Groq client: {e}")
+    client = None
 
 class AIClient:
     def ask(self, messages: list) -> str:
@@ -11,7 +18,7 @@ class AIClient:
         Args:
             messages: List of dicts with 'role' and 'content'
         """
-        if not GROQ_API_KEY:
+        if not GROQ_API_KEY or not client:
             return " AI service is not configured (missing API key)."
 
         try:
