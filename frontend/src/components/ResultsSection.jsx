@@ -15,6 +15,9 @@ const ResultsSection = ({ result, id }) => {
         tumorSize: "-"
     };
 
+    const diagnosisText = (data.diagnosis || "").toLowerCase();
+    const isClear = diagnosisText.includes("no tumor");
+
     return (
         <section className="results-section" id={id}>
             <Container>
@@ -29,8 +32,8 @@ const ResultsSection = ({ result, id }) => {
                         <div className="scan-card">
                             <div className="scan-header">
                                 <span className="scan-label">Processed Scan Output</span>
-                                <Badge bg={data.diagnosis === "No Tumor" ? "success" : "danger"} className="pulse-badge">
-                                    {data.diagnosis === "No Tumor" ? "Clear" : "Attention Required"}
+                                <Badge bg={isClear ? "success" : "danger"} className="pulse-badge">
+                                    {isClear ? "Clear" : "Attention Required"}
                                 </Badge>
                             </div>
                             <div className="scan-image-wrapper">

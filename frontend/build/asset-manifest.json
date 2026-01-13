@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5e2fb834.css",
+    "main.js": "/static/js/main.319260fb.js",
+    "static/js/453.40ad9881.chunk.js": "/static/js/453.40ad9881.chunk.js",
+    "static/media/brain_hero_3d.png": "/static/media/brain_hero_3d.fb0de6578c842e8dd297.png",
+    "static/media/mri_scan_overlay.png": "/static/media/mri_scan_overlay.c1dba2e147a916977739.png",
+    "static/media/logo.png": "/static/media/logo.4fb7731127ac1d2cefcc.png",
+    "index.html": "/index.html",
+    "main.5e2fb834.css.map": "/static/css/main.5e2fb834.css.map",
+    "main.319260fb.js.map": "/static/js/main.319260fb.js.map",
+    "453.40ad9881.chunk.js.map": "/static/js/453.40ad9881.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5e2fb834.css",
+    "static/js/main.319260fb.js"
+  ]
+}

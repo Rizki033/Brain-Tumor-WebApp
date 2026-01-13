@@ -46,18 +46,45 @@ const DiagnosticSection = ({ onAnalysisComplete }) => {
                 method: "POST",
                 body: formData,
             });
+
+            // Handle non-2xx responses with a useful message
+            if (!response.ok) {
+                let detail = "";
+                try {
+                    const errJson = await response.json();
+                    detail = errJson?.detail || errJson?.error || JSON.stringify(errJson);
+                } catch {
+                    try {
+                        detail = await response.text();
+                    } catch {
+                        detail = "";
+                    }
+                }
+                throw new Error(`Request failed (${response.status}). ${detail}`);
+            }
+
             const data = await response.json();
 
-            if (data.error) {
+
+            // Backend currently returns: diagnosis, confidence (0-100), type, severity, tumorSize
+            // Normalize to also include prediction for components that expect it.
+            if (data?.error) {
                 alert("Analysis failed: " + data.error);
-            } else {
-                if (onAnalysisComplete) {
-                    onAnalysisComplete({ ...data, patientId: "PID-" + Math.floor(Math.random() * 10000) });
-                }
+                return;
+            }
+
+            const normalized = {
+                ...data,
+                prediction: data?.prediction ?? data?.diagnosis ?? "Unknown",
+                patientId: data?.patientId ?? ("PID-" + Math.floor(Math.random() * 10000)),
+            };
+
+            if (onAnalysisComplete) {
+                onAnalysisComplete(normalized);
             }
         } catch (error) {
             console.error("Error:", error);
-            alert("Connection to AI Server failed. Please ensure backend is running.");
+            alert(`Analysis request failed. ${error?.message || "Please ensure backend is running."}`);
         } finally {
             setIsLoading(false);
         }
