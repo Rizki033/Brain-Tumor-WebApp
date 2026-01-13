@@ -9,7 +9,7 @@ const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const { login } = useAuth();
+    const { login, register } = useAuth();
     const navigate = useNavigate();
 
     // Login State
@@ -17,31 +17,43 @@ const Login = () => {
     const [password, setPassword] = useState('');
 
     // Sign Up State
-    const [fullName, setFullName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [newEmail, setNewEmail] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [gender, setGender] = useState('male');
+    const [age, setAge] = useState('');
+
+    // Success Message
+    const [successMessage, setSuccessMessage] = useState('');
 
     const toggleAuthMode = () => {
         setIsLogin(!isLogin);
         // Reset forms on toggle
         setEmail('');
         setPassword('');
-        setFullName('');
+        setFirstName('');
+        setLastName('');
         setNewEmail('');
         setNewPassword('');
         setConfirmPassword('');
+        setGender('male');
+        setAge('');
+        setError('');
+        setSuccessMessage('');
     };
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError('');
+        setSuccessMessage('');
 
         const result = await login(email, password);
 
         if (result.success) {
-            navigate('/doctor-dashboard');
+            navigate('/diagnostic'); // Direct to diagnostic or dashboard
         } else {
             setError(result.error);
         }
@@ -49,13 +61,38 @@ const Login = () => {
         setLoading(false);
     };
 
-    const handleSignUp = (e) => {
+    const handleSignUp = async (e) => {
         e.preventDefault();
+        setError('');
+        setSuccessMessage('');
+
         if (newPassword !== confirmPassword) {
-            alert("Passwords do not match!");
+            setError("Passwords do not match!");
             return;
         }
-        console.log("Sign Up:", fullName, newEmail);
+
+        setLoading(true);
+
+        const userData = {
+            first_name: firstName,
+            last_name: lastName,
+            email: newEmail,
+            password: newPassword,
+            gender: gender,
+            age: parseInt(age) || null,
+        };
+
+        const result = await register(userData);
+
+        if (result.success) {
+            setSuccessMessage("Account created successfully! Please check your email to verify your account before logging in.");
+            setTimeout(() => {
+                setIsLogin(true);
+            }, 5000);
+        } else {
+            setError(result.error);
+        }
+        setLoading(false);
     };
 
     return (
@@ -96,6 +133,11 @@ const Login = () => {
                                     {isLogin ? (
                                         /* LOGIN FORM */
                                         <Form onSubmit={handleLogin} className="auth-form fade-in">
+                                            {successMessage && (
+                                                <Alert variant="success" className="mb-3">
+                                                    {successMessage}
+                                                </Alert>
+                                            )}
                                             {error && (
                                                 <Alert variant="danger" className="mb-3">
                                                     {error}
@@ -153,20 +195,78 @@ const Login = () => {
                                     ) : (
                                         /* SIGN UP FORM */
                                         <Form onSubmit={handleSignUp} className="auth-form fade-in">
-                                            <Form.Group className="mb-3" controlId="signupName">
-                                                <Form.Label className="auth-label">Full Name</Form.Label>
-                                                <div className="input-group-custom">
-                                                    <PersonVcard className="input-icon" />
-                                                    <Form.Control
-                                                        type="text"
-                                                        placeholder="Dr. Jane Doe"
-                                                        className="auth-input"
-                                                        value={fullName}
-                                                        onChange={(e) => setFullName(e.target.value)}
-                                                        required
-                                                    />
-                                                </div>
-                                            </Form.Group>
+                                            {successMessage && (
+                                                <Alert variant="success" className="mb-3">
+                                                    {successMessage}
+                                                </Alert>
+                                            )}
+                                            {error && (
+                                                <Alert variant="danger" className="mb-3">
+                                                    {error}
+                                                </Alert>
+                                            )}
+                                            <Row>
+                                                <Col md={6}>
+                                                    <Form.Group className="mb-3" controlId="signupFirstName">
+                                                        <Form.Label className="auth-label">First Name</Form.Label>
+                                                        <div className="input-group-custom">
+                                                            <PersonVcard className="input-icon" />
+                                                            <Form.Control
+                                                                type="text"
+                                                                placeholder="Jane"
+                                                                className="auth-input"
+                                                                value={firstName}
+                                                                onChange={(e) => setFirstName(e.target.value)}
+                                                                required
+                                                            />
+                                                        </div>
+                                                    </Form.Group>
+                                                </Col>
+                                                <Col md={6}>
+                                                    <Form.Group className="mb-3" controlId="signupLastName">
+                                                        <Form.Label className="auth-label">Last Name</Form.Label>
+                                                        <div className="input-group-custom">
+                                                            <PersonVcard className="input-icon" />
+                                                            <Form.Control
+                                                                type="text"
+                                                                placeholder="Doe"
+                                                                className="auth-input"
+                                                                value={lastName}
+                                                                onChange={(e) => setLastName(e.target.value)}
+                                                                required
+                                                            />
+                                                        </div>
+                                                    </Form.Group>
+                                                </Col>
+                                            </Row>
+
+                                            <Row>
+                                                <Col md={6}>
+                                                    <Form.Group className="mb-3" controlId="signupGender">
+                                                        <Form.Label className="auth-label">Gender</Form.Label>
+                                                        <Form.Select
+                                                            className="auth-input"
+                                                            value={gender}
+                                                            onChange={(e) => setGender(e.target.value)}
+                                                        >
+                                                            <option value="male">Male</option>
+                                                            <option value="female">Female</option>
+                                                        </Form.Select>
+                                                    </Form.Group>
+                                                </Col>
+                                                <Col md={6}>
+                                                    <Form.Group className="mb-3" controlId="signupAge">
+                                                        <Form.Label className="auth-label">Age</Form.Label>
+                                                        <Form.Control
+                                                            type="number"
+                                                            placeholder="30"
+                                                            className="auth-input"
+                                                            value={age}
+                                                            onChange={(e) => setAge(e.target.value)}
+                                                        />
+                                                    </Form.Group>
+                                                </Col>
+                                            </Row>
 
                                             <Form.Group className="mb-3" controlId="signupEmail">
                                                 <Form.Label className="auth-label">Email Address</Form.Label>
@@ -239,8 +339,13 @@ const Login = () => {
                                                 </Col>
                                             </Row>
 
-                                            <Button variant="primary" type="submit" className="auth-btn w-100 mb-3">
-                                                Create Account
+                                            <Button
+                                                variant="primary"
+                                                type="submit"
+                                                className="auth-btn w-100 mb-3"
+                                                disabled={loading}
+                                            >
+                                                {loading ? 'Creating Account...' : 'Create Account'}
                                             </Button>
 
                                             <div className="text-center mt-3">
