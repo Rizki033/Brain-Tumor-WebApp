@@ -2,72 +2,36 @@ from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from app.services.diagnosis_service import get_diagnosis
-from app.core.auth import create_access_token, verify_password, CurrentDoctor
-from app.db.models import Doctor, SessionDep
+from app.core.auth import create_access_token, verify_password, CurrentPatient, get_current_patient
+from app.db.models import Patient, SessionDep
 import shutil
 import os
 
 router = APIRouter()
 
-@router.post("/login")
-async def login(
-    session: SessionDep,
-    form_data: OAuth2PasswordRequestForm = Depends(),
-):
+# login endpoint removed in favor of auth.py
+
+@router.get("/patient/dashboard")
+async def patient_dashboard(current_patient: Patient = CurrentPatient):
     """
-    Doctor login endpoint. Returns JWT access token.
-    """
-    # Find doctor by email
-    doctor = session.query(Doctor).filter(Doctor.email == form_data.username).first()
-
-    if not doctor:
-        raise HTTPException(
-            status_code=401,
-            detail="Incorrect email or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
-    # Verify password
-    if not verify_password(form_data.password, doctor.hashed_password):
-        raise HTTPException(
-            status_code=401,
-            detail="Incorrect email or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
-    # Create access token
-    access_token = create_access_token(data={"sub": doctor.email})
-
-    return {
-        "access_token": access_token,
-        "token_type": "bearer",
-        "doctor": {
-            "id": doctor.id,
-            "name": doctor.name,
-            "email": doctor.email,
-            "competency": doctor.competency_doc
-        }
-    }
-
-@router.get("/doctor/dashboard")
-async def doctor_dashboard(current_doctor: Doctor = CurrentDoctor):
-    """
-    Protected endpoint for authenticated doctors.
-    Returns doctor's dashboard information.
+    Protected endpoint for authenticated patients.
+    Returns patient's dashboard information.
     """
     return {
-        "message": f"Welcome Dr. {current_doctor.name}",
-        "doctor_id": current_doctor.id,
-        "competency": current_doctor.competency_doc,
+        "message": f"Welcome {current_patient.first_name} {current_patient.last_name}",
+        "patient_id": current_patient.id,
+        "age": current_patient.age,
         "dashboard_data": {
-            "total_patients": 0,  # You can implement this later
-            "pending_reviews": 0,
+            "total_scans": 0,
             "recent_predictions": []
         }
     }
 
 @router.post("/predict")
-async def predict(file: UploadFile = File(...)):
+async def predict(
+    file: UploadFile = File(...),
+    current_patient: Patient = Depends(get_current_patient)
+):
     """
     Endpoint to predict brain tumor from uploaded MRI image.
     Matches frontend call: POST /predict
