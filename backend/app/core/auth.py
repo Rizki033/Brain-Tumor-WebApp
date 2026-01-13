@@ -7,7 +7,8 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
 from app.core.config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
-from app.db.models import Doctor, SessionDep
+from app.db.models import Doctor, Patient, SessionDep
+from sqlmodel import select
 
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -57,19 +58,22 @@ def get_password_hash(password):
 # Authentication dependency
 security = HTTPBearer()
 
-async def get_current_doctor(
+async def get_current_patient(
     session: SessionDep,
     credentials: HTTPAuthorizationCredentials = Depends(security),
 ):
     email = verify_token(credentials.credentials)
-    doctor = session.get(Doctor, email)  # Assuming email is unique
-    if doctor is None:
+    # Search for patient by email
+    statement = select(Patient).where(Patient.email == email)
+    patient = session.exec(statement).first()
+    
+    if patient is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Doctor not found",
+            detail="User not found",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    return doctor
+    return patient
 
 # Type for dependency injection
-CurrentDoctor = Depends(get_current_doctor)
+CurrentPatient = Depends(get_current_patient)
