@@ -1,6 +1,6 @@
 # app/main.py
 
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, Depends
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
@@ -12,23 +12,42 @@ import io
 
 from app.model import segment_brain_tumor, load_model
 from app.utils import preprocess_nifti, postprocess_nifti
+from app.core.auth import get_current_patient
+from app.db.models import Patient
 
 import torch
 
+from app.db.models import create_db_and_tables
+from app.db.models import create_db_and_tables
+from app.api import auth, diagnosis
+
 app = FastAPI(
-    title="Brain Tumor Segmentation API",
-    description="API for segmenting brain tumors from MRI images. Supports both regular images (PNG, JPG) and NIfTI files.",
+    title="Brain Tumor Detection API",
+    description="API for detecting brain tumors from MRI images using a U-Net model.",
     version="1.0.0"
 )
 
-# Add CORS middleware
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Create tables on startup
+@app.on_event("startup")
+def on_startup():
+    create_db_and_tables()
+
+# Include routers
+app.include_router(auth.router)
+app.include_router(diagnosis.router)
 
 # Load the model at startup
 model = load_model()
@@ -41,7 +60,10 @@ def read_root():
     return {"message": "Brain Tumor Segmentation API is running!"}
 
 @app.post("/segment/", tags=["Segmentation"], response_class=FileResponse)
-async def segment_image(file: UploadFile = File(...)):
+async def segment_image(
+    current_patient: Patient = Depends(get_current_patient),
+    file: UploadFile = File(...)
+):
     """
     Segment brain tumors from an MRI image.
     

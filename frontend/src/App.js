@@ -7,11 +7,12 @@ import About from './pages/About';
 import Team from './pages/Team';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
-import DoctorDashboard from './pages/DoctorDashboard';
+import PatientDashboard from './pages/PatientDashboard';
 import Footer from './components/Footer';
 import './App.css';
 import Chatbot from './components/Chatbot';
 import { AuthProvider } from './contexts/AuthContext';
+import Profile from './pages/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -24,16 +25,31 @@ function App() {
           <Navigation />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/diagnostic" element={<Diagnostic setGlobalDiagnosis={setDiagnosis} />} />
+            <Route
+              path="/diagnostic"
+              element={
+                <ProtectedRoute>
+                  <Diagnostic setGlobalDiagnosis={setDiagnosis} />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/about" element={<About />} />
             <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
             <Route
-              path="/doctor-dashboard"
+              path="/patient-dashboard"
               element={
                 <ProtectedRoute>
-                  <DoctorDashboard />
+                  <PatientDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
                 </ProtectedRoute>
               }
             />

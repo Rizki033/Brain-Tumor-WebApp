@@ -32,6 +32,8 @@ class Doctor(SQLModel, table=True):
     email: str | None = Field(default=None, index=True)
     hashed_password: str
     competency_doc: str
+    is_verified: bool = Field(default=False)
+    verification_token: str | None = Field(default=None)
     created_at: datetime = Field(
         default_factory=datetime.utcnow,
         nullable=False,
@@ -61,6 +63,10 @@ class Patient(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     first_name: str = Field(index=True)
     last_name: str = Field(index=True) 
+    email: str = Field(unique=True, index=True)
+    hashed_password: str
+    is_verified: bool = Field(default=False)
+    verification_token: str | None = Field(default=None) 
     gender: PatientGender
     age: int | None = Field(default=None, index=True)  
     created_at: datetime = Field(
