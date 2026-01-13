@@ -88,7 +88,7 @@ class Prediction(SQLModel, table=True):
         sa_column_kwargs={"server_default": "CURRENT_TIMESTAMP"}
     )    
 
-# ---------------------- Patient Model ---------------------
+# ---------------------- Raport Model ---------------------
 class Raport(SQLModel, table=True):
     id: int | None = Field(
         default=None, 
