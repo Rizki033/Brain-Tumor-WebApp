@@ -181,6 +181,13 @@ const Login = () => {
                                                         required
                                                     />
                                                 </div>
+                                                {newEmail && (
+                                                    <Form.Text className={/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail) ? "text-success" : "text-danger"}>
+                                                        {/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)
+                                                            ? "✓ Email format looks good"
+                                                            : "Please enter a valid email address"}
+                                                    </Form.Text>
+                                                )}
                                             </Form.Group>
 
                                             <Row>
@@ -198,6 +205,13 @@ const Login = () => {
                                                                 required
                                                             />
                                                         </div>
+                                                        {newPassword && (
+                                                            <Form.Text className={newPassword.length >= 6 ? "text-success" : "text-danger"}>
+                                                                {newPassword.length >= 6
+                                                                    ? "✓ Good length"
+                                                                    : "Must be at least 6 characters"}
+                                                            </Form.Text>
+                                                        )}
                                                     </Form.Group>
                                                 </Col>
                                                 <Col md={6}>
@@ -214,6 +228,13 @@ const Login = () => {
                                                                 required
                                                             />
                                                         </div>
+                                                        {confirmPassword && (
+                                                            <Form.Text className={newPassword === confirmPassword ? "text-success" : "text-danger"}>
+                                                                {newPassword === confirmPassword
+                                                                    ? "✓ Passwords match"
+                                                                    : "Passwords do not match"}
+                                                            </Form.Text>
+                                                        )}
                                                     </Form.Group>
                                                 </Col>
                                             </Row>
