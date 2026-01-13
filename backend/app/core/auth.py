@@ -58,8 +58,8 @@ def get_password_hash(password):
 security = HTTPBearer()
 
 async def get_current_doctor(
+    session: SessionDep,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    session: Session = SessionDep
 ):
     email = verify_token(credentials.credentials)
     doctor = session.get(Doctor, email)  # Assuming email is unique
