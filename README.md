@@ -1,5 +1,7 @@
 # NeuroScan AI - Brain Tumor Detection Web Application
 
+![NeuroScan AI Demo](assets/demo.mp4)
+
 NeuroScan AI is a cutting-edge medical diagnostic tool that leverages advanced deep learning algorithms to assist medical professionals in detecting brain tumors from MRI scans with high precision and speed.
 
 ##  Key Features
