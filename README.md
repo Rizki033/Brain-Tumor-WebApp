@@ -2,7 +2,7 @@
 
 NeuroScan AI is a cutting-edge medical diagnostic tool that leverages advanced deep learning algorithms to assist medical professionals in detecting brain tumors from MRI scans with high precision and speed.
 
-## 🚀 Key Features
+##  Key Features
 
 - **Automated MRI Segmentation:** Precise identification and localization of potential brain tumors.
 - **Deep Learning Accuracy:** Powered by state-of-the-art neural networks trained on extensive medical datasets.
@@ -10,7 +10,7 @@ NeuroScan AI is a cutting-edge medical diagnostic tool that leverages advanced d
 - **Interactive AI Assistant:** A smart chatbot to answer questions about brain tumors and medical imaging.
 - **Secure Data Handling:** Enterprise-grade encryption ensuring patient data privacy and HIPAA compliance.
 
-## 📸 Screenshots
+##  Screenshots
 
 ### Home Page
 ![NeuroScan AI Hero](assets/screenshots/hero.png)
@@ -27,7 +27,7 @@ NeuroScan AI is a cutting-edge medical diagnostic tool that leverages advanced d
 ### Get in Touch
 ![Contact Page](assets/screenshots/contact.png)
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 ### Frontend
 - **React.js**: For building a dynamic and responsive user interface.
@@ -39,7 +39,7 @@ NeuroScan AI is a cutting-edge medical diagnostic tool that leverages advanced d
 - **PyTorch/ONNX**: For deep learning model inference.
 - **PostgreSQL**: For secure and scalable data storage.
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 Brain-Tumor-WebApp/
@@ -53,7 +53,7 @@ Brain-Tumor-WebApp/
 └── requirements.txt    # Python dependencies
 ```
 
-## ⚙️ Installation
+##  Installation
 
 ### Backend Setup
 1. Navigate to the `backend` directory.
