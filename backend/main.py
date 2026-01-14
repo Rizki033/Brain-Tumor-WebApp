@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.chat import router as chat_router
 from app.api.diagnosis import router as diagnosis_router
+from app.api.auth import router as auth_router
 
 app = FastAPI(
     title="NeuroScan Brain Tumor Chatbot API",
@@ -25,6 +26,7 @@ app.add_middleware(
 )
 
 # Include routers
+app.include_router(auth_router) # /auth prefix is defined in the router
 app.include_router(chat_router, prefix="/api", tags=["chat"])
 app.include_router(diagnosis_router, tags=["diagnosis"]) # /predict is at root level to match frontend
 

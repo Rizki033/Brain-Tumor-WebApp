@@ -10,29 +10,26 @@ export const useAuth = () => {
   return context;
 };
 
-// Define API Base URL
-const API_URL = 'http://127.0.0.1:8000';
-
 export const AuthProvider = ({ children }) => {
-  const [patient, setPatient] = useState(null);
+  const [doctor, setDoctor] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
 
   // Check if token exists on app start
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
-    const storedPatient = localStorage.getItem('patient');
+    const storedDoctor = localStorage.getItem('doctor');
 
-    if (storedToken && storedPatient) {
+    if (storedToken && storedDoctor) {
       setToken(storedToken);
-      setPatient(JSON.parse(storedPatient));
+      setDoctor(JSON.parse(storedDoctor));
     }
     setLoading(false);
   }, []);
 
   const login = async (email, password) => {
     try {
-      const response = await fetch(`${API_URL}/auth/login`, {
+      const response = await fetch('/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -49,14 +46,14 @@ export const AuthProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      const { access_token, patient: patientData } = data;
+      const { access_token, doctor: doctorData } = data;
 
-      // Store token and patient data
+      // Store token and doctor data
       localStorage.setItem('token', access_token);
-      localStorage.setItem('patient', JSON.stringify(patientData));
+      localStorage.setItem('doctor', JSON.stringify(doctorData));
 
       setToken(access_token);
-      setPatient(patientData);
+      setDoctor(doctorData);
 
       return { success: true };
     } catch (error) {
@@ -64,58 +61,40 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (userData) => {
+  const signup = async (name, email, password, competency = "General Practitioner") => {
+    console.log("AuthContext: Signing up with", { name, email, competency });
     try {
-      const response = await fetch(`${API_URL}/auth/register`, {
+      const response = await fetch('/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userData),
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          competency_doc: competency,
+        }),
       });
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.detail || 'Registration failed');
+        throw new Error(error.detail || 'Signup failed');
       }
 
-      return { success: true };
+      // Auto login after signup
+      return await login(email, password);
     } catch (error) {
-      return { success: false, error: error.message };
-    }
-  };
-
-  const updateProfile = async (profileData) => {
-    try {
-      const response = await fetch(`${API_URL}/auth/me`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          ...getAuthHeaders(),
-        },
-        body: JSON.stringify(profileData),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.detail || 'Update failed');
-      }
-
-      const updatedPatient = await response.json();
-      setPatient(updatedPatient);
-      localStorage.setItem('patient', JSON.stringify(updatedPatient));
-
-      return { success: true };
-    } catch (error) {
+      console.error("AuthContext: Signup error", error);
       return { success: false, error: error.message };
     }
   };
 
   const logout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('patient');
+    localStorage.removeItem('doctor');
     setToken(null);
-    setPatient(null);
+    setDoctor(null);
   };
 
   const getAuthHeaders = () => {
@@ -123,13 +102,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   const value = {
-    patient,
+    doctor,
     token,
     loading,
     login,
+    signup,
     logout,
-    register,
-    updateProfile,
     getAuthHeaders,
     isAuthenticated: !!token,
   };

@@ -1,37 +1,34 @@
+from typing import List
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
-from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from app.services.diagnosis_service import get_diagnosis
-from app.core.auth import create_access_token, verify_password, CurrentPatient, get_current_patient
-from app.db.models import Patient, SessionDep
+from app.core.auth import CurrentDoctor
+from app.db.models import Doctor, SessionDep
+from app.db.models import Doctor, SessionDep
 import shutil
 import os
 
 router = APIRouter()
 
-# login endpoint removed in favor of auth.py
-
-@router.get("/patient/dashboard")
-async def patient_dashboard(current_patient: Patient = CurrentPatient):
+@router.get("/doctor/dashboard")
+async def doctor_dashboard(current_doctor: Doctor = CurrentDoctor):
     """
-    Protected endpoint for authenticated patients.
-    Returns patient's dashboard information.
+    Protected endpoint for authenticated doctors.
+    Returns doctor's dashboard information.
     """
     return {
-        "message": f"Welcome {current_patient.first_name} {current_patient.last_name}",
-        "patient_id": current_patient.id,
-        "age": current_patient.age,
+        "message": f"Welcome Dr. {current_doctor.name}",
+        "doctor_id": current_doctor.id,
+        "competency": current_doctor.competency_doc,
         "dashboard_data": {
-            "total_scans": 0,
+            "total_patients": 0,  # You can implement this later
+            "pending_reviews": 0,
             "recent_predictions": []
         }
     }
 
 @router.post("/predict")
-async def predict(
-    file: UploadFile = File(...),
-    current_patient: Patient = Depends(get_current_patient)
-):
+async def predict(file: UploadFile = File(...)):
     """
     Endpoint to predict brain tumor from uploaded MRI image.
     Matches frontend call: POST /predict

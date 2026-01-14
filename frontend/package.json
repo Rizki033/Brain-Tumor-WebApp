@@ -2,7 +2,11 @@
   "name": "todo",
   "version": "0.1.0",
   "private": true,
+<<<<<<< HEAD
   "proxy": "http://127.0.0.1:8000",
+=======
+  "proxy": "http://localhost:8000",
+>>>>>>> 048af25f (refactor auth, api, frontend)
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@testing-library/dom": "^10.4.1",

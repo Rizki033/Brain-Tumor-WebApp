@@ -41,11 +41,8 @@ const Navigation = () => {
 
                         {isAuthenticated ? (
                             <>
-                                <Nav.Link as={NavLink} to="/patient-dashboard" className="nav-item-link">
-                                    My Dashboard
-                                </Nav.Link>
-                                <Nav.Link as={NavLink} to="/profile" className="nav-item-link">
-                                    Profile
+                                <Nav.Link as={NavLink} to="/doctor-dashboard" className="nav-item-link">
+                                    Dashboard
                                 </Nav.Link>
                                 <Button
                                     variant="outline-light"

@@ -1,6 +1,11 @@
 # app/main.py
 
+<<<<<<< HEAD
 from fastapi import FastAPI, UploadFile, File, HTTPException, Depends
+=======
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, UploadFile, File, HTTPException
+>>>>>>> 048af25f (refactor auth, api, frontend)
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
@@ -12,6 +17,7 @@ import io
 
 from app.model import segment_brain_tumor, load_model
 from app.utils import preprocess_nifti, postprocess_nifti
+<<<<<<< HEAD
 from app.core.auth import get_current_patient
 from app.db.models import Patient
 
@@ -25,6 +31,27 @@ app = FastAPI(
     title="Brain Tumor Detection API",
     description="API for detecting brain tumors from MRI images using a U-Net model.",
     version="1.0.0"
+=======
+from app.db.models import create_db_and_tables
+from app.api.auth import router as auth_router
+from app.api.diagnosis import router as diagnosis_router
+
+import torch
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    create_db_and_tables()
+    # Load model
+    global model
+    model = load_model()
+    yield
+
+app = FastAPI(
+    title="Brain Tumor Segmentation API",
+    description="API for segmenting brain tumors from MRI images. Supports both regular images (PNG, JPG) and NIfTI files.",
+    version="1.0.0",
+    lifespan=lifespan
+>>>>>>> 048af25f (refactor auth, api, frontend)
 )
 
 origins = [
@@ -40,6 +67,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+<<<<<<< HEAD
 # Create tables on startup
 @app.on_event("startup")
 def on_startup():
@@ -51,6 +79,13 @@ app.include_router(diagnosis.router)
 
 # Load the model at startup
 model = load_model()
+=======
+app.include_router(auth_router)
+app.include_router(diagnosis_router)
+
+# Load the model at startup (removed global call, moved to lifespan)
+# model = load_model()
+>>>>>>> 048af25f (refactor auth, api, frontend)
 
 @app.get("/", tags=["Health Check"])
 def read_root():
