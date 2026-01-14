@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# NeuroScan AI - Brain Tumor Detection Web Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+NeuroScan AI is a cutting-edge medical diagnostic tool that leverages advanced deep learning algorithms to assist medical professionals in detecting brain tumors from MRI scans with high precision and speed.
 
-## Available Scripts
+## 🚀 Key Features
 
-In the project directory, you can run:
+- **Automated MRI Segmentation:** Precise identification and localization of potential brain tumors.
+- **Deep Learning Accuracy:** Powered by state-of-the-art neural networks trained on extensive medical datasets.
+- **Real-time Diagnostic Feedback:** Instant preliminary reports based on uploaded MRI images.
+- **Interactive AI Assistant:** A smart chatbot to answer questions about brain tumors and medical imaging.
+- **Secure Data Handling:** Enterprise-grade encryption ensuring patient data privacy and HIPAA compliance.
 
-### `npm start`
+## 📸 Screenshots
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Home Page
+![NeuroScan AI Hero](assets/screenshots/hero.png)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Intelligent Features
+![NeuroScan AI Technology](assets/screenshots/features.png)
 
-### `npm test`
+### AI-Powered Diagnosis
+![MRI Analysis Page](assets/screenshots/diagnostic.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Smart AI Assistant
+![NeuroScan AI Assistant](assets/screenshots/chatbot.png)
 
-### `npm run build`
+### Get in Touch
+![Contact Page](assets/screenshots/contact.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🛠️ Technology Stack
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Frontend
+- **React.js**: For building a dynamic and responsive user interface.
+- **Vanilla CSS**: Custom, premium styling for a modern medical aesthetic.
+- **Framer Motion**: For smooth page transitions and micro-animations.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Backend
+- **FastAPI**: A high-performance Python web framework for the API layer.
+- **PyTorch/ONNX**: For deep learning model inference.
+- **PostgreSQL**: For secure and scalable data storage.
 
-### `npm run eject`
+## 📂 Project Structure
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```text
+Brain-Tumor-WebApp/
+├── assets/             # Project screenshots and media
+├── backend/            # FastAPI backend application
+│   ├── app/            # Core application logic
+│   └── main.py         # Backend entry point
+├── frontend/           # React frontend application
+│   ├── src/            # Source code
+│   └── public/         # Static assets
+└── requirements.txt    # Python dependencies
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## ⚙️ Installation
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Backend Setup
+1. Navigate to the `backend` directory.
+2. Create and activate a virtual environment.
+3. Install dependencies: `pip install -r requirements.txt`
+4. Run the server: `python main.py`
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Frontend Setup
+1. Navigate to the `frontend` directory.
+2. Install dependencies: `npm install`
+3. Start the development server: `npm run dev`
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+© 2026 NeuroScan AI. All rights reserved.
