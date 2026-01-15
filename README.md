@@ -29,6 +29,10 @@ NeuroScan AI is a cutting-edge medical diagnostic tool that leverages advanced d
 ### Get in Touch
 ![Contact Page](assets/screenshots/contact.png)
 
+### Team
+![Contact Page](assets/screenshots/Team.png)
+
+
 ## Technology Stack
 
 ### Frontend

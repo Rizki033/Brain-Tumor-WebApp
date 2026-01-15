@@ -57,8 +57,8 @@ const TeamSection = () => {
                                     <p className="member-desc">{member.description}</p>
 
                                     <div className="social-links mt-auto">
-                                        <a href={member.social.linkedin} className="social-icon"><LinkedInIcon /></a>
-                                        <a href={member.social.github} className="social-icon"><Github /></a>
+                                        <a href={member.social.linkedin} className="social-icon linkedin" target="_blank" rel="noopener noreferrer"><LinkedInIcon /></a>
+                                        <a href={member.social.github} className="social-icon github" target="_blank" rel="noopener noreferrer"><Github /></a>
                                     </div>
                                 </Card.Body>
                             </Card>

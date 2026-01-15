@@ -102,18 +102,41 @@
 }
 
 .social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: #f0f4f8;
+    color: #546e7a;
+    text-decoration: none;
+}
+
+/* LinkedIn Specific Style */
+.social-icon.linkedin {
     color: #0077b5;
-    /* LinkedIn Blue */
-    font-size: 1.5rem;
-    transition: transform 0.3s ease, color 0.3s ease;
+    background: rgba(0, 119, 181, 0.1);
 }
 
-.social-icon:nth-child(2) {
-    color: #333;
-    /* Github Black */
+.social-icon.linkedin:hover {
+    background: #0077b5;
+    color: white;
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 119, 181, 0.2);
 }
 
-.social-icon:hover {
-    transform: scale(1.2);
-    color: #00d2ff;
+/* Github Specific Style */
+.social-icon.github {
+    color: #24292e;
+    background: rgba(36, 41, 46, 0.1);
+}
+
+.social-icon.github:hover {
+    background: #24292e;
+    color: white;
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 10px 20px rgba(36, 41, 46, 0.2);
 }
