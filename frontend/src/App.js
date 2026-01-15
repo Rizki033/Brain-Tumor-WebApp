@@ -27,11 +27,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route
               path="/diagnostic"
-              element={
-                <ProtectedRoute>
-                  <Diagnostic setGlobalDiagnosis={setDiagnosis} />
-                </ProtectedRoute>
-              }
+              element={<Diagnostic setGlobalDiagnosis={setDiagnosis} />}
             />
             <Route path="/about" element={<About />} />
             <Route path="/team" element={<Team />} />
